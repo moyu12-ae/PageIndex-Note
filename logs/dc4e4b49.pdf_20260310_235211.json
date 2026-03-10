@@ -1,0 +1,112 @@
+[
+  {
+    "total_page_number": 14
+  },
+  {
+    "total_token": 0
+  },
+  {
+    "toc_content": null,
+    "toc_page_list": [],
+    "page_index_given_in_toc": "no"
+  },
+  {
+    "message": "len(group_texts): 1"
+  },
+  {
+    "message": "generate_toc: [{'structure': '1', 'title': 'Introduction', 'physical_index': '<physical_index_1>'}, {'structure': '1.1', 'title': 'Background', 'physical_index': '<physical_index_2>'}, {'structure': '1.2', 'title': 'Objectives', 'physical_index': '<physical_index_3>'}, {'structure': '2', 'title': 'Literature Review', 'physical_index': '<physical_index_4>'}, {'structure': '2.1', 'title': 'Previous Studies', 'physical_index': '<physical_index_5>'}, {'structure': '2.2', 'title': 'Theoretical Framework', 'physical_index': '<physical_index_6>'}, {'structure': '3', 'title': 'Methodology', 'physical_index': '<physical_index_7>'}, {'structure': '3.1', 'title': 'Research Design', 'physical_index': '<physical_index_8>'}, {'structure': '3.2', 'title': 'Data Collection', 'physical_index': '<physical_index_9>'}, {'structure': '4', 'title': 'Results', 'physical_index': '<physical_index_10>'}, {'structure': '4.1', 'title': 'Data Analysis', 'physical_index': '<physical_index_11>'}, {'structure': '4.2', 'title': 'Findings', 'physical_index': '<physical_index_12>'}, {'structure': '5', 'title': 'Discussion', 'physical_index': '<physical_index_13>'}, {'structure': '6', 'title': 'Conclusion', 'physical_index': '<physical_index_14>'}]"
+  },
+  {
+    "message": "convert_physical_index_to_int: [{'structure': '1', 'title': 'Introduction', 'physical_index': 1}, {'structure': '1.1', 'title': 'Background', 'physical_index': 2}, {'structure': '1.2', 'title': 'Objectives', 'physical_index': 3}, {'structure': '2', 'title': 'Literature Review', 'physical_index': 4}, {'structure': '2.1', 'title': 'Previous Studies', 'physical_index': 5}, {'structure': '2.2', 'title': 'Theoretical Framework', 'physical_index': 6}, {'structure': '3', 'title': 'Methodology', 'physical_index': 7}, {'structure': '3.1', 'title': 'Research Design', 'physical_index': 8}, {'structure': '3.2', 'title': 'Data Collection', 'physical_index': 9}, {'structure': '4', 'title': 'Results', 'physical_index': 10}, {'structure': '4.1', 'title': 'Data Analysis', 'physical_index': 11}, {'structure': '4.2', 'title': 'Findings', 'physical_index': 12}, {'structure': '5', 'title': 'Discussion', 'physical_index': 13}, {'structure': '6', 'title': 'Conclusion', 'physical_index': 14}]"
+  },
+  {
+    "mode": "process_toc_with_page_numbers",
+    "accuracy": 0.0,
+    "incorrect_results": [
+      {
+        "list_index": 0,
+        "answer": "no",
+        "title": "Introduction",
+        "page_number": 1
+      },
+      {
+        "list_index": 1,
+        "answer": "no",
+        "title": "Background",
+        "page_number": 2
+      },
+      {
+        "list_index": 2,
+        "answer": "no",
+        "title": "Objectives",
+        "page_number": 3
+      },
+      {
+        "list_index": 3,
+        "answer": "no",
+        "title": "Literature Review",
+        "page_number": 4
+      },
+      {
+        "list_index": 4,
+        "answer": "no",
+        "title": "Previous Studies",
+        "page_number": 5
+      },
+      {
+        "list_index": 5,
+        "answer": "no",
+        "title": "Theoretical Framework",
+        "page_number": 6
+      },
+      {
+        "list_index": 6,
+        "answer": "no",
+        "title": "Methodology",
+        "page_number": 7
+      },
+      {
+        "list_index": 7,
+        "answer": "no",
+        "title": "Research Design",
+        "page_number": 8
+      },
+      {
+        "list_index": 8,
+        "answer": "no",
+        "title": "Data Collection",
+        "page_number": 9
+      },
+      {
+        "list_index": 9,
+        "answer": "no",
+        "title": "Results",
+        "page_number": 10
+      },
+      {
+        "list_index": 10,
+        "answer": "no",
+        "title": "Data Analysis",
+        "page_number": 11
+      },
+      {
+        "list_index": 11,
+        "answer": "no",
+        "title": "Findings",
+        "page_number": 12
+      },
+      {
+        "list_index": 12,
+        "answer": "no",
+        "title": "Discussion",
+        "page_number": 13
+      },
+      {
+        "list_index": 13,
+        "answer": "no",
+        "title": "Conclusion",
+        "page_number": 14
+      }
+    ]
+  }
+]

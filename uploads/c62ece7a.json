@@ -1,0 +1,1 @@
+{"project": "PageIndex", "features": [{"name": "文档上传", "status": "已完成"}, {"name": "树可视化", "status": "已完成"}, {"name": "问答检索", "status": "进行中"}], "config": {"model": "deepseek-chat", "language": "Chinese"}}

@@ -1,0 +1,42 @@
+﻿{
+   "cd2bb880": {
+    "document_id": "cd2bb880",
+    "filename": "q1-fy25-earnings.pdf",
+    "file_type": "pdf",
+    "status": "completed",
+    "created_at": "2026-03-07T13:28:13Z",
+    "file_path": "F:\\8参考示例\\知识库\\PageIndex-main\\uploads\\cd2bb880.pdf"
+  },
+  "9d6641fd": {
+    "document_id": "9d6641fd",
+    "filename": "test_data.csv",
+    "file_type": "csv",
+    "status": "completed",
+    "created_at": "2026-03-07T16:05:02Z",
+    "file_path": "F:\\8参考示例\\知识库\\PageIndex-main\\uploads\\9d6641fd.csv"
+  },
+  "646f1d40": {
+    "document_id": "646f1d40",
+    "filename": "test_text.txt",
+    "file_type": "text",
+    "status": "completed",
+    "created_at": "2026-03-07T16:05:14Z",
+    "file_path": "F:\\8参考示例\\知识库\\PageIndex-main\\uploads\\646f1d40.txt"
+  },
+  "c62ece7a": {
+    "document_id": "c62ece7a",
+    "filename": "test_json.json",
+    "file_type": "json",
+    "status": "completed",
+    "created_at": "2026-03-07T16:05:14Z",
+    "file_path": "F:\\8参考示例\\知识库\\PageIndex-main\\uploads\\c62ece7a.json"
+  },
+  "4dc1490f": {
+    "document_id": "4dc1490f",
+    "filename": "红楼梦人物关系.txt",
+    "file_type": "text",
+    "status": "completed",
+    "created_at": "2026-03-08T02:13:21Z",
+    "file_path": "F:\\8参考示例\\知识库\\PageIndex-main\\uploads\\4dc1490f.txt"
+  }
+}

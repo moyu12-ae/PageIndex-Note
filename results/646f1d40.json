@@ -1,0 +1,31 @@
+{
+  "doc_name": "646f1d40_converted",
+  "structure": [
+    {
+      "title": "646f1d40",
+      "node_id": "0000",
+      "prefix_summary": "# 646f1d40\n\n这是一个测试文本文件。",
+      "line_num": 1,
+      "nodes": [
+        {
+          "title": "第一章 系统概述",
+          "node_id": "0001",
+          "summary": "## 第一章 系统概述\n\n\nPageIndex是一个无向量化的推理式RAG系统。它通过构建文档的层级树索引来实现高效检索。",
+          "line_num": 6
+        },
+        {
+          "title": "第二章 技术架构",
+          "node_id": "0002",
+          "summary": "## 第二章 技术架构\n\n\n系统采用Python作为后端语言，支持PDF和Markdown格式的文档处理。",
+          "line_num": 12
+        },
+        {
+          "title": "第三章 使用方法",
+          "node_id": "0003",
+          "summary": "## 第三章 使用方法\n\n\n用户可以上传文档，系统会自动生成树结构索引，然后可以进行问答检索。",
+          "line_num": 18
+        }
+      ]
+    }
+  ]
+}

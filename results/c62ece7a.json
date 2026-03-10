@@ -1,0 +1,45 @@
+{
+  "doc_name": "c62ece7a_converted",
+  "structure": [
+    {
+      "title": "c62ece7a",
+      "node_id": "0000",
+      "prefix_summary": "# c62ece7a\n\n- **project**: PageIndex",
+      "line_num": 1,
+      "nodes": [
+        {
+          "title": "features",
+          "node_id": "0001",
+          "prefix_summary": "## features",
+          "line_num": 5,
+          "nodes": [
+            {
+              "title": "文档上传",
+              "node_id": "0002",
+              "summary": "### 文档上传\n\n- **name**: 文档上传\n- **status**: 已完成",
+              "line_num": 8
+            },
+            {
+              "title": "树可视化",
+              "node_id": "0003",
+              "summary": "### 树可视化\n\n- **name**: 树可视化\n- **status**: 已完成",
+              "line_num": 13
+            },
+            {
+              "title": "问答检索",
+              "node_id": "0004",
+              "summary": "### 问答检索\n\n- **name**: 问答检索\n- **status**: 进行中",
+              "line_num": 18
+            }
+          ]
+        },
+        {
+          "title": "config",
+          "node_id": "0005",
+          "summary": "## config\n\n- **model**: deepseek-chat\n- **language**: Chinese",
+          "line_num": 23
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "doc_name": "9d6641fd_converted",
+  "structure": [
+    {
+      "title": "9d6641fd",
+      "node_id": "0000",
+      "prefix_summary": "# 9d6641fd",
+      "line_num": 1,
+      "nodes": [
+        {
+          "title": "Data Overview",
+          "node_id": "0001",
+          "summary": "## Data Overview\n\n- Columns: 4\n- Rows: 3\n\n| 名称 | 类型 | 描述 | 状态 |\n| --- | --- | --- | --- |\n| 项目A | 软件开发 | Web应用系统开发项目 | 进行中 |\n| 项目B | 数据分析 | 用户行为数据分析 | 已完成 |\n| 项目C | 系统集成 | ERP系统集成改造 | 规划中 |",
+          "line_num": 4
+        },
+        {
+          "title": "Record Details",
+          "node_id": "0002",
+          "prefix_summary": "## Record Details",
+          "line_num": 15,
+          "nodes": [
+            {
+              "title": "项目A",
+              "node_id": "0003",
+              "summary": "### 项目A\n\n- **名称**: 项目A\n- **类型**: 软件开发\n- **描述**: Web应用系统开发项目\n- **状态**: 进行中",
+              "line_num": 18
+            },
+            {
+              "title": "项目B",
+              "node_id": "0004",
+              "summary": "### 项目B\n\n- **名称**: 项目B\n- **类型**: 数据分析\n- **描述**: 用户行为数据分析\n- **状态**: 已完成",
+              "line_num": 25
+            },
+            {
+              "title": "项目C",
+              "node_id": "0005",
+              "summary": "### 项目C\n\n- **名称**: 项目C\n- **类型**: 系统集成\n- **描述**: ERP系统集成改造\n- **状态**: 规划中",
+              "line_num": 32
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

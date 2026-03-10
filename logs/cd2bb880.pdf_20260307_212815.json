@@ -1,0 +1,159 @@
+[
+  {
+    "total_page_number": 22
+  },
+  {
+    "total_token": 14724
+  },
+  {
+    "toc_content": null,
+    "toc_page_list": [],
+    "page_index_given_in_toc": "no"
+  },
+  {
+    "message": "len(group_texts): 1"
+  },
+  {
+    "message": "generate_toc: [{'structure': '1', 'title': 'THE WALT DISNEY COMPANY REPORTS FIRST QUARTER EARNINGS FOR FISCAL 2025', 'physical_index': '<physical_index_1>'}, {'structure': '1.1', 'title': 'Guidance and Outlook', 'physical_index': '<physical_index_2>'}, {'structure': '1.2', 'title': 'Message From Our CEO', 'physical_index': '<physical_index_2>'}, {'structure': '2', 'title': 'SUMMARIZED FINANCIAL RESULTS', 'physical_index': '<physical_index_3>'}, {'structure': '2.1', 'title': 'SUMMARIZED SEGMENT FINANCIAL RESULTS', 'physical_index': '<physical_index_3>'}, {'structure': '3', 'title': 'DISCUSSION OF FIRST QUARTER SEGMENT RESULTS', 'physical_index': '<physical_index_4>'}, {'structure': '3.1', 'title': 'Star India', 'physical_index': '<physical_index_4>'}, {'structure': '3.2', 'title': 'Entertainment', 'physical_index': '<physical_index_4>'}, {'structure': '3.2.1', 'title': 'Linear Networks', 'physical_index': '<physical_index_5>'}, {'structure': '3.2.1.1', 'title': 'Domestic', 'physical_index': '<physical_index_5>'}, {'structure': '3.2.1.2', 'title': 'International', 'physical_index': '<physical_index_5>'}, {'structure': '3.2.1.3', 'title': 'Equity in the Income of Investees', 'physical_index': '<physical_index_5>'}, {'structure': '3.2.2', 'title': 'Direct-to-Consumer', 'physical_index': '<physical_index_5>'}, {'structure': '3.2.3', 'title': 'Key Metrics - First Quarter of Fiscal 2025 Comparison to Fourth Quarter of Fiscal 2024', 'physical_index': '<physical_index_6>'}, {'structure': '3.2.4', 'title': 'Content Sales/Licensing and Other', 'physical_index': '<physical_index_7>'}, {'structure': '3.3', 'title': 'Sports', 'physical_index': '<physical_index_7>'}, {'structure': '3.3.1', 'title': 'Domestic ESPN', 'physical_index': '<physical_index_8>'}, {'structure': '3.3.2', 'title': 'International ESPN', 'physical_index': '<physical_index_8>'}, {'structure': '3.3.3', 'title': 'Star India', 'physical_index': '<physical_index_8>'}, {'structure': '3.3.4', 'title': 'Key Metrics - First Quarter of Fiscal 2025 Comparison to Fourth Quarter of Fiscal 2024', 'physical_index': '<physical_index_8>'}, {'structure': '3.4', 'title': 'Experiences', 'physical_index': '<physical_index_9>'}, {'structure': '3.4.1', 'title': 'Domestic Parks and Experiences', 'physical_index': '<physical_index_9>'}, {'structure': '3.4.2', 'title': 'International Parks and Experiences', 'physical_index': '<physical_index_9>'}, {'structure': '4', 'title': 'OTHER FINANCIAL INFORMATION', 'physical_index': '<physical_index_9>'}, {'structure': '4.1', 'title': 'Corporate and Unallocated Shared Expenses', 'physical_index': '<physical_index_9>'}, {'structure': '4.2', 'title': 'Restructuring and Impairment Charges', 'physical_index': '<physical_index_9>'}, {'structure': '4.3', 'title': 'Interest Expense, net', 'physical_index': '<physical_index_10>'}, {'structure': '4.4', 'title': 'Equity in the Income of Investees', 'physical_index': '<physical_index_10>'}, {'structure': '4.5', 'title': 'Income Taxes', 'physical_index': '<physical_index_10>'}, {'structure': '4.6', 'title': 'Noncontrolling Interests', 'physical_index': '<physical_index_11>'}, {'structure': '4.7', 'title': 'Cash from Operations', 'physical_index': '<physical_index_11>'}, {'structure': '4.8', 'title': 'Capital Expenditures', 'physical_index': '<physical_index_12>'}, {'structure': '4.9', 'title': 'Depreciation Expense', 'physical_index': '<physical_index_12>'}, {'structure': '5', 'title': 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF INCOME', 'physical_index': '<physical_index_13>'}, {'structure': '6', 'title': 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED BALANCE SHEETS', 'physical_index': '<physical_index_14>'}, {'structure': '7', 'title': 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF CASH FLOWS', 'physical_index': '<physical_index_15>'}, {'structure': '8', 'title': 'DTC PRODUCT DESCRIPTIONS AND KEY DEFINITIONS', 'physical_index': '<physical_index_16>'}, {'structure': '9', 'title': 'NON-GAAP FINANCIAL MEASURES', 'physical_index': '<physical_index_17>'}, {'structure': '9.1', 'title': 'Diluted EPS excluding certain items', 'physical_index': '<physical_index_17>'}, {'structure': '9.2', 'title': 'Total segment operating income', 'physical_index': '<physical_index_19>'}, {'structure': '9.3', 'title': 'Free cash flow', 'physical_index': '<physical_index_19>'}, {'structure': '10', 'title': 'FORWARD-LOOKING STATEMENTS', 'physical_index': '<physical_index_21>'}, {'structure': '11', 'title': 'PREPARED EARNINGS REMARKS AND CONFERENCE CALL INFORMATION', 'physical_index': '<physical_index_22>'}]"
+  },
+  {
+    "message": "convert_physical_index_to_int: [{'structure': '1', 'title': 'THE WALT DISNEY COMPANY REPORTS FIRST QUARTER EARNINGS FOR FISCAL 2025', 'physical_index': 1}, {'structure': '1.1', 'title': 'Guidance and Outlook', 'physical_index': 2}, {'structure': '1.2', 'title': 'Message From Our CEO', 'physical_index': 2}, {'structure': '2', 'title': 'SUMMARIZED FINANCIAL RESULTS', 'physical_index': 3}, {'structure': '2.1', 'title': 'SUMMARIZED SEGMENT FINANCIAL RESULTS', 'physical_index': 3}, {'structure': '3', 'title': 'DISCUSSION OF FIRST QUARTER SEGMENT RESULTS', 'physical_index': 4}, {'structure': '3.1', 'title': 'Star India', 'physical_index': 4}, {'structure': '3.2', 'title': 'Entertainment', 'physical_index': 4}, {'structure': '3.2.1', 'title': 'Linear Networks', 'physical_index': 5}, {'structure': '3.2.1.1', 'title': 'Domestic', 'physical_index': 5}, {'structure': '3.2.1.2', 'title': 'International', 'physical_index': 5}, {'structure': '3.2.1.3', 'title': 'Equity in the Income of Investees', 'physical_index': 5}, {'structure': '3.2.2', 'title': 'Direct-to-Consumer', 'physical_index': 5}, {'structure': '3.2.3', 'title': 'Key Metrics - First Quarter of Fiscal 2025 Comparison to Fourth Quarter of Fiscal 2024', 'physical_index': 6}, {'structure': '3.2.4', 'title': 'Content Sales/Licensing and Other', 'physical_index': 7}, {'structure': '3.3', 'title': 'Sports', 'physical_index': 7}, {'structure': '3.3.1', 'title': 'Domestic ESPN', 'physical_index': 8}, {'structure': '3.3.2', 'title': 'International ESPN', 'physical_index': 8}, {'structure': '3.3.3', 'title': 'Star India', 'physical_index': 8}, {'structure': '3.3.4', 'title': 'Key Metrics - First Quarter of Fiscal 2025 Comparison to Fourth Quarter of Fiscal 2024', 'physical_index': 8}, {'structure': '3.4', 'title': 'Experiences', 'physical_index': 9}, {'structure': '3.4.1', 'title': 'Domestic Parks and Experiences', 'physical_index': 9}, {'structure': '3.4.2', 'title': 'International Parks and Experiences', 'physical_index': 9}, {'structure': '4', 'title': 'OTHER FINANCIAL INFORMATION', 'physical_index': 9}, {'structure': '4.1', 'title': 'Corporate and Unallocated Shared Expenses', 'physical_index': 9}, {'structure': '4.2', 'title': 'Restructuring and Impairment Charges', 'physical_index': 9}, {'structure': '4.3', 'title': 'Interest Expense, net', 'physical_index': 10}, {'structure': '4.4', 'title': 'Equity in the Income of Investees', 'physical_index': 10}, {'structure': '4.5', 'title': 'Income Taxes', 'physical_index': 10}, {'structure': '4.6', 'title': 'Noncontrolling Interests', 'physical_index': 11}, {'structure': '4.7', 'title': 'Cash from Operations', 'physical_index': 11}, {'structure': '4.8', 'title': 'Capital Expenditures', 'physical_index': 12}, {'structure': '4.9', 'title': 'Depreciation Expense', 'physical_index': 12}, {'structure': '5', 'title': 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF INCOME', 'physical_index': 13}, {'structure': '6', 'title': 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED BALANCE SHEETS', 'physical_index': 14}, {'structure': '7', 'title': 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF CASH FLOWS', 'physical_index': 15}, {'structure': '8', 'title': 'DTC PRODUCT DESCRIPTIONS AND KEY DEFINITIONS', 'physical_index': 16}, {'structure': '9', 'title': 'NON-GAAP FINANCIAL MEASURES', 'physical_index': 17}, {'structure': '9.1', 'title': 'Diluted EPS excluding certain items', 'physical_index': 17}, {'structure': '9.2', 'title': 'Total segment operating income', 'physical_index': 19}, {'structure': '9.3', 'title': 'Free cash flow', 'physical_index': 19}, {'structure': '10', 'title': 'FORWARD-LOOKING STATEMENTS', 'physical_index': 21}, {'structure': '11', 'title': 'PREPARED EARNINGS REMARKS AND CONFERENCE CALL INFORMATION', 'physical_index': 22}]"
+  },
+  {
+    "mode": "process_toc_with_page_numbers",
+    "accuracy": 1.0,
+    "incorrect_results": []
+  },
+  {
+    "message": "Checking title appearance in start concurrently"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Capital Expenditures'. The page_text begins with 'Capital\\tExpenditures', which matches the title exactly aside from a tab instead of a space. There is no preceding text before this title in the page_text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'Experiences', not 'OTHER FINANCIAL INFORMATION'. The section title 'OTHER FINANCIAL INFORMATION' appears later in the page_text, preceded by other content. Therefore, the current section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Income Taxes'. The page_text begins with 'Interest Expense, net' and contains several sections before reaching 'Income Taxes'. The phrase 'Income Taxes' appears later in the text, preceded by other content. Therefore, the current section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'Linear Networks', not with the section title 'Direct-to-Consumer'. The 'Direct-to-Consumer' section appears later in the text. Therefore, the current section does not start at the beginning of the provided page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'Domestic Disney+ average monthly revenue...' and continues with other content before the 'Sports' section title appears later in the text. The 'Sports' title is not the first content in the page_text; there is substantial preceding text about other topics like Disney+ and Hulu revenues.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Free cash flow'. The page_text begins with 'Total segment operating income', which is a different section. The 'Free cash flow' section appears later in the page_text, after the table and discussion related to total segment operating income. Therefore, the current section title is not the first content in the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Equity in the Income of Investees'. The page_text begins with 'Interest Expense, net' and contains several paragraphs of financial data before the line 'Equity in the Income of Investees' appears. Therefore, the section title is not the first content in the page_text; there is other content before it.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'Domestic ESPN', which is content from a previous section. The specified section title 'Key Metrics - First Quarter of Fiscal 2025 Comparison to Fourth Quarter of Fiscal 2024' appears much later in the text, after several paragraphs discussing other topics. Therefore, the current section does not start at the beginning of the provided page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Cash from Operations'. The page_text begins with 'Noncontrolling Interests' and contains several paragraphs before the line 'Cash from Operations' appears. The section title is not the first content in the page_text; there is other text preceding it.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Noncontrolling Interests'. The page_text begins with 'Noncontrolling\\tInterests', which matches the title exactly when ignoring the tab character as a space inconsistency. There is no preceding text or content before this phrase.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Linear Networks'. The page_text begins with 'Linear\\\\tNetworks' (with a tab between the words). After normalizing spaces, the page_text starts with 'Linear Networks', which exactly matches the section title. There is no other content before this text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Star India'. The page_text begins with 'Domestic ESPN', not 'Star India'. The 'Star India' section appears later in the text, after the 'International ESPN' section. Therefore, the current section title is not the first content in the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'International'. The page_text begins with 'Linear Networks', not 'International'. The word 'International' appears later in the page_text, but it is not the first content. Therefore, the current section does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Depreciation Expense'. The page_text begins with 'Capital Expenditures', followed by other content, and then later contains 'Depreciation Expense'. The section title is not the first content in the page_text; there is preceding text about capital expenditures.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'FORWARD-LOOKING STATEMENTS'. The page_text begins with 'FORWARD-LOOKING\\\\tSTATEMENTS'. After ignoring space inconsistencies (such as the tab between the words instead of a hyphen or space), the initial text matches the section title exactly. There is no other content before this text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'Domestic Disney+ average monthly revenue...' and continues for several paragraphs before the section title 'Content Sales/Licensing and Other' appears. The title is not the first content in the page_text; there is substantial text preceding it.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'February 5, 2025' on the first line. The provided section title 'THE WALT DISNEY COMPANY REPORTS FIRST QUARTER EARNINGS FOR FISCAL 2025' appears on the second and third lines of the page_text. Since there is other content (the date) before the section title, the section does not start at the very beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'DISCUSSION OF FIRST QUARTER SEGMENT RESULTS' on the first line. The section title 'Star India' appears on the second line. Since there is other content ('DISCUSSION OF FIRST QUARTER SEGMENT RESULTS') before the section title, the section does not start at the very beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Message From Our CEO'. The page_text begins with 'Guidance and Outlook:' and contains several bullet points before the 'Message From Our CEO:' section appears near the end. Therefore, there is other content before the section title, and the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with the word 'Experiences' on the first line, with no preceding text, spaces, or characters. The provided section title is also 'Experiences'. After ignoring space inconsistencies (as per the instruction for fuzzy matching), the first content in the page_text exactly matches the section title.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Entertainment'. The page_text begins with 'DISCUSSION OF FIRST QUARTER SEGMENT RESULTS', followed by several paragraphs about Star India. The word 'Entertainment' appears later in the text, but it is not the first content. There is significant text before the 'Entertainment' heading. Therefore, the current section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with 'Total\\\\tsegment\\\\toperating\\\\tincome'. The given section title is 'Total segment operating income'. After normalizing spaces (ignoring tabs vs. spaces), the start of the page_text exactly matches the section title. There is no other content before this text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'International ESPN'. The page_text begins with 'Domestic ESPN', not 'International ESPN'. The section 'International ESPN' appears later in the text, after the content for 'Domestic ESPN'. Therefore, the current section does not start at the beginning of the provided page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Diluted EPS excluding certain items'. The page_text begins with 'NON-GAAP FINANCIAL MEASURES', not the section title. The section title 'Diluted EPS excluding certain items' appears later in the text, after several paragraphs. Therefore, the current section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with the word 'Experiences' on the first line. The section title we are checking for is 'International Parks and Experiences'. The first content in the page_text ('Experiences') does not match the full section title. It is only a partial match and is not the same as the complete title 'International Parks and Experiences'. Therefore, the current section title is not the first content in the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Corporate and Unallocated Shared Expenses'. The page_text begins with the word 'Experiences', followed by a table and other content. The specified section title appears later in the text, after 'OTHER FINANCIAL INFORMATION'. Since there is other content before the section title, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Domestic ESPN'. The page_text begins with 'Domestic\\\\tESPN' (where \\\\t represents a tab). After normalizing spaces, the first characters of the page_text match the section title exactly, with no preceding text. Therefore, the current section title is the first content in the page_text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF INCOME'. The page_text begins with 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF INCOME' on the first two lines, ignoring spaces and line breaks. There is no other content before this title in the page_text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'SUMMARIZED FINANCIAL RESULTS'. The page_text begins with 'SUMMARIZED\\\\tFINANCIAL\\\\tRESULTS'. After normalizing spaces (ignoring tabs and extra spaces), the start of the page_text is 'SUMMARIZED FINANCIAL RESULTS', which exactly matches the given section title. There is no other content before this text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Guidance and Outlook'. The page_text begins with 'Guidance\\\\tand\\\\tOutlook:' (with tabs instead of spaces). After normalizing whitespace (ignoring space inconsistency as instructed), the first meaningful content matches the section title exactly. There is no other text or content before 'Guidance and Outlook:' in the page_text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Domestic'. The page_text begins with 'Linear Networks', not 'Domestic'. The word 'Domestic' first appears later in the text, within a table of revenues. The section clearly titled 'Domestic' (as a standalone heading) appears even later, after the table and the 'Operating income' data. Therefore, the 'Domestic' section does not start at the beginning of the provided page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'NON-GAAP FINANCIAL MEASURES'. The page_text begins with 'NON-GAAP\\tFINANCIAL\\tMEASURES'. After normalizing spaces (tabs to spaces), the start of the page_text is 'NON-GAAP FINANCIAL MEASURES', which exactly matches the section title when ignoring space inconsistencies (tabs vs. spaces). There is no other text or content before this phrase.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'PREPARED EARNINGS REMARKS AND CONFERENCE CALL INFORMATION'. The page_text begins with 'PREPARED\\\\tEARNINGS\\\\tREMARKS\\\\tAND\\\\tCONFERENCE\\\\tCALL\\\\tINFORMATION'. Ignoring spaces and tabs, the first sequence of characters in the page_text matches the section title exactly. There is no other text or content before this title.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'SUMMARIZED SEGMENT FINANCIAL RESULTS'. The page_text begins with 'SUMMARIZED\\\\tFINANCIAL\\\\tRESULTS', which is a different heading. The specific section title 'SUMMARIZED SEGMENT FINANCIAL RESULTS' appears later in the text, after other content. Therefore, the current section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'DISCUSSION OF FIRST QUARTER SEGMENT RESULTS'. The page_text begins with 'DISCUSSION\\tOF\\tFIRST\\tQUARTER\\tSEGMENT\\tRESULTS'. After normalizing spaces (tabs to spaces), the page_text starts with 'DISCUSSION OF FIRST QUARTER SEGMENT RESULTS', which is an exact match for the section title when ignoring space inconsistencies (tabs vs. spaces). There is no other content before this text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given page_text begins with bullet points and other content ('\u2022 Higher technology and distribution costs...'). The specified section title 'Key Metrics - First Quarter of Fiscal 2025 Comparison to Fourth Quarter of Fiscal 2024' appears later in the text, after several lines of preceding content. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Restructuring and Impairment Charges'. The page_text begins with the word 'Experiences', followed by a table and other content. The section title 'Restructuring and Impairment Charges' appears later in the text, after sections like 'OTHER FINANCIAL INFORMATION' and 'Corporate and Unallocated Shared Expenses'. Therefore, there is significant content before the target section title, so it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED BALANCE SHEETS'. The page_text begins with 'THE\\tWALT\\tDISNEY\\tCOMPANY\\nCONDENSED\\tCONSOLIDATED\\tBALANCE\\tSHEETS'. After normalizing spaces (ignoring tabs and newlines as instructed for fuzzy matching), the first content in the page_text is exactly 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED BALANCE SHEETS', which matches the given section title. There is no other text or content before this title.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'DTC PRODUCT DESCRIPTIONS AND KEY DEFINITIONS'. The page_text begins with 'DTC\\\\tPRODUCT\\\\tDESCRIPTIONS\\\\tAND\\\\tKEY\\\\tDEFINITIONS'. This matches the section title exactly when ignoring the tab characters (\\\\t) used as spaces in the page_text versus the single spaces in the provided title. There is no other text or content before this string in the page_text. Therefore, the current section title is the first content in the given page_text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Interest Expense, net.' The first line of the page_text is 'Interest\\tExpense,\\tnet'. After normalizing spaces (replacing tabs and multiple spaces with a single space), this becomes 'Interest Expense, net'. This exactly matches the given section title 'Interest Expense, net'. There is no text or content before this line in the page_text. Therefore, the current section title is the first content in the given page_text.\", 'start_begin': 'yes'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Domestic Parks and Experiences'. The page_text begins with 'Experiences' on the first line, followed by a table of data. The exact phrase 'Domestic Parks and Experiences' does not appear at the very start of the text. The first content is 'Experiences', which is part of a table header. The specific section title appears later in the text, after the table. Therefore, there is other content (the table) before the section title, so the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'Equity in the Income of Investees'. The provided page_text begins with 'Linear Networks', followed by several paragraphs of financial data and discussion. The exact phrase 'Equity in the Income of Investees' first appears in the middle of the page_text as part of a table row ('Equity in the income of investees 123 173 (29)%'). It appears again later as a standalone section header ('Equity in the Income of Investees'). However, the page_text does not start with this title. The first content in the page_text is 'Linear Networks', not the given section title.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The given section title is 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF CASH FLOWS'. The page_text begins with 'THE\\tWALT\\tDISNEY\\tCOMPANY\\\\nCONDENSED\\tCONSOLIDATED\\tSTATEMENTS\\tOF\\tCASH\\tFLOWS'. After normalizing spaces (tabs and newlines to single spaces), the start of the page_text becomes 'THE WALT DISNEY COMPANY CONDENSED CONSOLIDATED STATEMENTS OF CASH FLOWS', which exactly matches the given section title. There is no other text content before this title in the provided page_text.\", 'start_begin': 'yes'}"
+  }
+]
