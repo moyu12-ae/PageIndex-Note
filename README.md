@@ -13,6 +13,10 @@
 
 ---
 
+# 项目演示视频
+点击下方链接观看项目演示：
+[点击此处观看项目演示视频](https://github.com/YiTangMJ/PageIndexRag-Web/PageIndex-Web可视化系统.mp4)
+
 ## 系统概述
 
 **PageIndex Web** 是基于 PageIndex 开源项目构建的 **Web 可视化RAG系统**，提供了完整的文档处理、树结构可视化和智能问答功能。
