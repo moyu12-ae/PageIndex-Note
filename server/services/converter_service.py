@@ -372,6 +372,120 @@ def _extract_rich_text(para) -> str:
     return "".join(parts) if parts else para.text
 
 
+def epub_to_markdown(file_path: str, output_path: str) -> str:
+    """Convert an EPUB file to Markdown.
+
+    Strategy:
+    - Use EbookLib to read the EPUB file
+    - Extract metadata (title, author)
+    - Parse the table of contents (TOC)
+    - Extract HTML content from each chapter
+    - Convert HTML to clean text using BeautifulSoup
+    - Generate Markdown with hierarchical headers
+    """
+    from ebooklib import epub
+    from bs4 import BeautifulSoup
+
+    book = epub.read_epub(file_path)
+    filename = Path(file_path).stem
+    md_lines = []
+
+    # Extract and add metadata
+    title = book.get_metadata('DC', 'title')
+    if title:
+        md_lines.append(f"# {title[0][0]}\n")
+    else:
+        md_lines.append(f"# {filename}\n")
+
+    author = book.get_metadata('DC', 'creator')
+    if author:
+        md_lines.append(f"\n**Author**: {author[0][0]}\n")
+
+    # Get all items in the book
+    items = list(book.get_items())
+
+    # Try to get TOC if available
+    toc = book.toc
+    chapter_map = {}
+
+    # First, collect all HTML documents and map their file names
+    for item in items:
+        # Check if this is a document (HTML) item
+        if hasattr(item, 'get_type'):
+            if item.get_type() == 9:  # ITEM_DOCUMENT is 9 in ebooklib
+                chapter_map[item.file_name] = item
+        elif hasattr(item, 'file_name') and item.file_name.endswith(('.html', '.xhtml', '.htm')):
+            chapter_map[item.file_name] = item
+
+    # Function to recursively process TOC
+    def process_toc(toc_items, level=2):
+        for toc_item in toc_items:
+            if isinstance(toc_item, tuple) and len(toc_item) == 2:
+                # (Section, [children]) format
+                section, children = toc_item
+                if hasattr(section, 'title'):
+                    md_lines.append(f'\n{"#" * min(level, 6)} {section.title}\n')
+                process_toc(children, level + 1)
+            elif hasattr(toc_item, 'href'):
+                # Single chapter link
+                href = toc_item.href
+                # Remove anchor if present
+                if '#' in href:
+                    href = href.split('#')[0]
+                if hasattr(toc_item, 'title'):
+                    md_lines.append(f'\n{"#" * min(level, 6)} {toc_item.title}\n')
+                # Extract and add content
+                if href in chapter_map:
+                    content = _extract_epub_chapter_content(chapter_map[href])
+                    if content.strip():
+                        md_lines.append(content)
+            elif hasattr(toc_item, 'title'):
+                # Just a title without link
+                md_lines.append(f'\n{"#" * min(level, 6)} {toc_item.title}\n')
+
+    # If TOC exists, process it; otherwise, process all documents in order
+    if toc:
+        process_toc(toc)
+    else:
+        # Fallback: process all documents in order
+        chapter_num = 1
+        for item in items:
+            if item.get_type() == epub.ITEM_DOCUMENT:
+                content = _extract_epub_chapter_content(item)
+                if content.strip():
+                    md_lines.append(f'\n## Chapter {chapter_num}\n')
+                    md_lines.append(content)
+                    chapter_num += 1
+
+    result = "\n".join(md_lines)
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(result)
+
+    return output_path
+
+
+def _extract_epub_chapter_content(item) -> str:
+    """Extract and clean text content from an EPUB chapter item."""
+    from bs4 import BeautifulSoup
+
+    content = item.get_content()
+    soup = BeautifulSoup(content, 'html.parser')
+
+    # Remove script and style elements
+    for script in soup(["script", "style"]):
+        script.decompose()
+
+    # Get text with basic formatting
+    lines = []
+    for element in soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'div']):
+        text = element.get_text(strip=True)
+        if text:
+            lines.append(text)
+
+    return "\n\n".join(lines)
+
+
 # ========== Unified Converter ==========
 
 # Supported extensions and their types
@@ -384,6 +498,7 @@ SUPPORTED_EXTENSIONS = {
     ".csv": "csv",
     ".docx": "word",
     ".doc": "word",
+    ".epub": "epub",
 }
 
 
@@ -406,6 +521,8 @@ def convert_to_markdown(file_path: str, output_path: str, file_type: str) -> str
             return csv_to_markdown(file_path, output_path)
         elif file_type == "word":
             return docx_to_markdown(file_path, output_path)
+        elif file_type == "epub":
+            return epub_to_markdown(file_path, output_path)
         else:
             raise ValueError(f"Unknown file type for conversion: {file_type}")
     except Exception as e:

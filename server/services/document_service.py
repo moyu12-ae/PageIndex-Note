@@ -115,8 +115,15 @@ def generate_document_id(filename: str) -> str:
 
 def load_all_metadata() -> dict:
     if METADATA_FILE.exists():
-        with open(METADATA_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(METADATA_FILE, "r", encoding="utf-8-sig") as f:
+                return json.load(f)
+        except Exception:
+            try:
+                with open(METADATA_FILE, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
     return {}
 
 
@@ -137,64 +144,57 @@ def delete_metadata(doc_id: str):
 # ========== PDF Processing (subprocess) ==========
 
 async def process_pdf(file_path: str, opt_dict: dict) -> dict:
-    """Run page_index_main in a separate subprocess via python -c."""
-    import subprocess
-    import tempfile
-
-    # Write opt_dict to a temp file
-    opt_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8')
-    json.dump(opt_dict, opt_file, ensure_ascii=False)
-    opt_file.close()
-
-    result_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8')
-    result_file.close()
-
-    script = f'''
-import sys, json
-sys.path.insert(0, r"{Path(__file__).parent.parent.parent}")
-from types import SimpleNamespace
-from pageindex.page_index import page_index_main
-
-with open(r"{opt_file.name}", "r", encoding="utf-8") as f:
-    opt_dict = json.load(f)
-opt = SimpleNamespace(**opt_dict)
-result = page_index_main(r"{file_path}", opt)
-with open(r"{result_file.name}", "w", encoding="utf-8") as f:
-    json.dump(result, f, ensure_ascii=False, indent=2)
-print("DONE")
-'''
-
-    loop = asyncio.get_running_loop()
-    proc = await asyncio.create_subprocess_exec(
-        sys.executable, '-c', script,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
+    """Process PDF directly using pageindex logic, adapted for async environment."""
+    from types import SimpleNamespace
+    from pageindex.utils import (
+        JsonLogger, get_page_tokens, get_pdf_name,
+        write_node_id, add_node_text, remove_structure_text,
+        create_clean_structure_for_description, generate_doc_description,
+        generate_summaries_for_structure
     )
-    stdout, stderr = await proc.communicate()
+    from pageindex.page_index import tree_parser
+    from io import BytesIO
+    import os
+    
+    opt = SimpleNamespace(**opt_dict)
+    logger = JsonLogger(file_path)
+    
+    is_valid_pdf = (
+        (isinstance(file_path, str) and os.path.isfile(file_path) and file_path.lower().endswith(".pdf")) or 
+        isinstance(file_path, BytesIO)
+    )
+    if not is_valid_pdf:
+        raise ValueError("Unsupported input type. Expected a PDF file path or BytesIO object.")
 
-    # Clean up opt file
-    try:
-        os.unlink(opt_file.name)
-    except Exception:
-        pass
+    print('Parsing PDF...')
+    page_list = get_page_tokens(file_path)
 
-    if proc.returncode != 0:
-        error_msg = stderr.decode('utf-8', errors='replace').strip()
-        try:
-            os.unlink(result_file.name)
-        except Exception:
-            pass
-        raise RuntimeError(f"PDF processing failed:\n{error_msg}")
+    logger.info({'total_page_number': len(page_list)})
+    logger.info({'total_token': sum([page[1] for page in page_list])})
 
-    # Read result
-    with open(result_file.name, "r", encoding="utf-8") as f:
-        result = json.load(f)
-    try:
-        os.unlink(result_file.name)
-    except Exception:
-        pass
-
-    return result
+    structure = await tree_parser(page_list, opt, doc=file_path, logger=logger)
+    if opt.if_add_node_id == 'yes':
+        write_node_id(structure)    
+    if opt.if_add_node_text == 'yes':
+        add_node_text(structure, page_list)
+    if opt.if_add_node_summary == 'yes':
+        if opt.if_add_node_text == 'no':
+            add_node_text(structure, page_list)
+        await generate_summaries_for_structure(structure, model=opt.model)
+        if opt.if_add_node_text == 'no':
+            remove_structure_text(structure)
+        if opt.if_add_doc_description == 'yes':
+            clean_structure = create_clean_structure_for_description(structure)
+            doc_description = generate_doc_description(clean_structure, model=opt.model)
+            return {
+                'doc_name': get_pdf_name(file_path),
+                'doc_description': doc_description,
+                'structure': structure,
+            }
+    return {
+        'doc_name': get_pdf_name(file_path),
+        'structure': structure,
+    }
 
 
 async def process_markdown(file_path: str, params: dict) -> dict:
@@ -281,6 +281,7 @@ async def orchestrate_processing(document_id: str, file_path: str, file_type: st
                 "json": "JSON",
                 "csv": "CSV",
                 "word": "Word",
+                "epub": "EPUB",
             }
             label = type_labels.get(file_type, file_type.upper())
 

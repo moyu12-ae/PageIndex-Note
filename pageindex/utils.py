@@ -294,9 +294,11 @@ def get_last_start_page_from_text(text):
 
 
 def sanitize_filename(filename, replacement='-'):
-    # In Linux, only '/' and '\0' (null) are invalid in filenames.
-    # Null can't be represented in strings, so we only handle '/'.
-    return filename.replace('/', replacement)
+    # Sanitize filename for cross-platform compatibility
+    invalid_chars = '<>:"/\\|?*'
+    for char in invalid_chars:
+        filename = filename.replace(char, replacement)
+    return filename
 
 def get_pdf_name(pdf_path):
     # Extract PDF name
@@ -312,8 +314,13 @@ def get_pdf_name(pdf_path):
 
 class JsonLogger:
     def __init__(self, file_path):
-        # Extract PDF name for logger name
+        # Extract PDF name for logger name and sanitize it
         pdf_name = get_pdf_name(file_path)
+        # Sanitize the filename to avoid issues with special characters
+        pdf_name = sanitize_filename(pdf_name)
+        # If the name is too long, truncate it
+        if len(pdf_name) > 50:
+            pdf_name = pdf_name[:50]
             
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.filename = f"{pdf_name}_{current_time}.json"

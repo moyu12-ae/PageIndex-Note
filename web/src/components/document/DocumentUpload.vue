@@ -34,8 +34,8 @@ function onFileSelect(e) {
 
 async function handleFile(file) {
   const ext = file.name.split('.').pop()?.toLowerCase()
-  if (!['pdf', 'md', 'markdown', 'txt', 'json', 'csv', 'docx', 'doc'].includes(ext)) {
-    uploadError.value = 'Unsupported format. Supports: PDF, Markdown, TXT, JSON, CSV, Word'
+  if (!['pdf', 'md', 'markdown', 'txt', 'json', 'csv', 'docx', 'doc', 'epub'].includes(ext)) {
+    uploadError.value = 'Unsupported format. Supports: PDF, Markdown, TXT, JSON, CSV, Word, EPUB'
     return
   }
 
@@ -78,9 +78,9 @@ async function handleFile(file) {
         <p class="upload__desc">Drag and drop a file here</p>
         <label class="upload__btn">
           Browse Files
-          <input type="file" accept=".pdf,.md,.markdown,.txt,.json,.csv,.docx,.doc" hidden @change="onFileSelect" />
+          <input type="file" accept=".pdf,.md,.markdown,.txt,.json,.csv,.docx,.doc,.epub" hidden @change="onFileSelect" />
         </label>
-        <p class="upload__hint">Supports PDF, Markdown, TXT, JSON, CSV, Word • Max 50MB</p>
+        <p class="upload__hint">Supports PDF, Markdown, TXT, JSON, CSV, Word, EPUB • Max 50MB</p>
       </div>
     </div>
 
