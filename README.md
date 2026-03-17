@@ -26,7 +26,7 @@ github: https://github.com/VectifyAI/PageIndex
 ### 本系统的特点
 
 - 🌐 **Web 可视化界面**：基于 Vue3 + Vite 构建的现代化前端
-- 📁 **多格式支持**：支持 PDF、Markdown、TXT、JSON、CSV、Word 等多种格式
+- 📁 **多格式支持**：支持 PDF、Markdown、TXT、JSON、CSV、Word、EPUB 等多种格式
 - 🌲 **树结构可视化**：交互式文档层级树展示，支持搜索、展开/折叠
 - 💬 **智能问答**：基于树结构的推理式检索，实时流式输出答案
 - 🔧 **LLM 配置**：支持切换不同的 LLM 服务（已配置 DeepSeek API）
@@ -42,7 +42,7 @@ github: https://github.com/VectifyAI/PageIndex
 | **无分块** | 文档按自然章节组织，而非人为切块 |
 | **类人检索** | 模拟人类专家浏览文档、提取知识的方式 |
 | **可解释性强** | 检索基于推理过程，可追踪、可解释，附带页码和章节引用 |
-| **多格式支持** | 自动将 TXT/JSON/CSV/Word 转换为 Markdown 再处理 |
+| **多格式支持** | 自动将 TXT/JSON/CSV/Word/EPUB 转换为 Markdown 再处理 |
 
 ### 工作原理（两阶段）
 
@@ -108,6 +108,7 @@ PageIndex-main/
 cd PageIndex-main
 pip install --upgrade -r requirements.txt
 pip install python-docx  # Word 文件支持
+pip install ebooklib  # EPUB 文件支持
 ```
 
 ### 第 2 步：配置环境变量
@@ -169,7 +170,7 @@ npm run dev
 
 ### 1. 文档上传
 
-**支持的格式**：PDF、Markdown (.md)、TXT、JSON、CSV、Word (.docx/.doc)
+**支持的格式**：PDF、Markdown (.md)、TXT、JSON、CSV、Word (.docx/.doc)、EPUB (.epub)
 
 **操作步骤**：
 1. 在首页点击"Upload Document"区域或拖拽文件
@@ -269,6 +270,13 @@ npm run dev
   - 保留加粗、斜体格式
   - 表格转换为 Markdown 表格
 - **适用场景**：商务文档、报告、合同
+
+### 7. EPUB (.epub)
+- **转换策略**：
+  - 解析 EPUB 结构，提取章节内容
+  - 按章节标题构建 Markdown 层级结构
+  - 保留图片引用
+- **适用场景**：电子书、小说、电子出版物
 
 > **转换原理**：所有非 PDF/Markdown 格式都会先转换为 Markdown，再走统一的 `md_to_tree` 处理管道。
 
