@@ -8,6 +8,8 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Optional, Dict
 
+from server.services.shared import is_placeholder_api_key
+
 RESULTS_DIR = Path(__file__).parent.parent.parent / "results"
 UPLOADS_DIR = Path(__file__).parent.parent.parent / "uploads"
 METADATA_FILE = RESULTS_DIR / "_metadata.json"
@@ -232,11 +234,9 @@ async def orchestrate_processing(document_id: str, file_path: str, file_type: st
     tracker = progress_tracker
     cfg = _get_config_values()
 
-    # Pre-check: validate API key before starting
-    from dotenv import load_dotenv
-    load_dotenv(Path(__file__).parent.parent.parent / ".env")
+    # Pre-check: validate API key before starting (env already loaded by _get_config_values)
     api_key = os.getenv("CHATGPT_API_KEY", "")
-    if not api_key or "XXXX" in api_key or api_key.startswith("sk-XXX"):
+    if is_placeholder_api_key(api_key):
         tracker.fail(document_id, "API Key 未配置或为占位符，请在设置页面填入有效的 DeepSeek API Key")
         return
 

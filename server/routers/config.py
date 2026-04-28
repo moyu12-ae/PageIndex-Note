@@ -5,6 +5,14 @@ from fastapi import APIRouter, Request, HTTPException
 from dotenv import load_dotenv, set_key
 import yaml
 
+from server.services.shared import (
+    strip_provider_prefix,
+    ensure_provider_prefix,
+    is_placeholder_api_key,
+    extract_http_status,
+    normalize_base_url,
+)
+
 router = APIRouter(prefix="/api/config", tags=["config"])
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -26,25 +34,6 @@ def _write_config_yaml(data: dict):
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True)
 
 
-# Model name handling:
-# - config.yaml stores model with litellm prefix: "openai/deepseek-v4-flash"
-# - AsyncOpenAI (chat_service, test-connection) needs plain name: "deepseek-v4-flash"
-# - Frontend should see/use the plain name
-LITELLM_PROVIDER_PREFIX = "openai/"
-
-def _strip_provider_prefix(model: str) -> str:
-    """Remove litellm provider prefix for direct API calls."""
-    for prefix in ("openai/", "litellm/"):
-        if model.startswith(prefix):
-            return model[len(prefix):]
-    return model
-
-def _ensure_provider_prefix(model: str) -> str:
-    """Add litellm provider prefix for config.yaml storage."""
-    model = _strip_provider_prefix(model)  # strip any existing prefix first
-    return f"{LITELLM_PROVIDER_PREFIX}{model}"
-
-
 @router.get("")
 async def get_config():
     """Get current LLM and processing configuration."""
@@ -56,7 +45,7 @@ async def get_config():
 
     # Strip litellm provider prefix for frontend display / test-connection
     raw_model = cfg.get("model", "deepseek-v4-flash")
-    display_model = _strip_provider_prefix(raw_model)
+    display_model = strip_provider_prefix(raw_model)
 
     return {
         "llm": {
@@ -92,7 +81,7 @@ async def update_config(request: Request):
     # Update config.yaml (store with litellm provider prefix)
     cfg = _read_config_yaml()
     if "model" in llm:
-        cfg["model"] = _ensure_provider_prefix(llm["model"])
+        cfg["model"] = ensure_provider_prefix(llm["model"])
 
     processing = body.get("processing", {})
     for key in ["toc_check_page_num", "max_page_num_each_node", "max_token_num_each_node",
@@ -116,17 +105,14 @@ async def test_connection(request: Request):
     api_key = body.get("api_key", os.getenv("CHATGPT_API_KEY", ""))
     base_url = body.get("api_base_url", os.getenv("API_BASE_URL", "https://api.deepseek.com"))
     # Strip litellm provider prefix for direct AsyncOpenAI call
-    model = _strip_provider_prefix(body.get("model", "deepseek-v4-flash"))
+    model = strip_provider_prefix(body.get("model", "deepseek-v4-flash"))
 
     if not api_key:
         return {"success": False, "error": "API Key 未设置"}
-    if "XXXX" in api_key or api_key.startswith("sk-XXX"):
+    if is_placeholder_api_key(api_key):
         return {"success": False, "error": "API Key 是占位符，请填入有效的 DeepSeek API Key"}
 
-    # Normalize base URL: DeepSeek API requires /v1 prefix for OpenAI-compatible endpoints
-    base_url = base_url.rstrip("/")
-    if not base_url.endswith("/v1"):
-        base_url = base_url + "/v1"
+    base_url = normalize_base_url(base_url)
 
     try:
         from openai import AsyncOpenAI
@@ -150,7 +136,7 @@ async def test_connection(request: Request):
         }
     except Exception as e:
         error_detail = str(e)
-        status_code = getattr(e, "status_code", None) or getattr(getattr(e, "response", None), "status_code", None)
+        status_code = extract_http_status(e)
         if status_code:
             error_detail = f"HTTP {status_code}: {error_detail}"
         return {"success": False, "error": error_detail}

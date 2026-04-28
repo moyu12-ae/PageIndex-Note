@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
 
 from server.services.tree_service import load_tree, get_skeleton, find_nodes_by_ids
+from server.services.shared import normalize_base_url, is_placeholder_api_key, extract_http_status
 
 TREE_SEARCH_PROMPT = """You are given a question and a tree structure of a document.
 Each node contains a node id, node title, and a corresponding summary.
@@ -36,20 +37,12 @@ Document excerpts:
 Provide a comprehensive answer in the same language as the question, based only on the provided excerpts."""
 
 
-def _normalize_base_url(url: str) -> str:
-    """Ensure base URL ends with /v1 for OpenAI-compatible API."""
-    url = url.rstrip("/")
-    if not url.endswith("/v1"):
-        url = url + "/v1"
-    return url
-
-
 def _get_llm_config():
     """Read LLM config from environment."""
     raw_url = os.getenv("API_BASE_URL", None)
     return {
         "api_key": os.getenv("CHATGPT_API_KEY", ""),
-        "base_url": _normalize_base_url(raw_url) if raw_url else None,
+        "base_url": normalize_base_url(raw_url) if raw_url else None,
         "model": os.getenv("LLM_MODEL", "deepseek-v4-flash"),
     }
 
@@ -79,7 +72,7 @@ async def run_rag_pipeline(document_id: str, question: str, chat_history: list):
     cfg = _get_llm_config()
 
     # Check for placeholder API key
-    if not cfg["api_key"] or cfg["api_key"].startswith("sk-XXX") or "XXXX" in cfg["api_key"]:
+    if is_placeholder_api_key(cfg["api_key"]):
         yield ("error", {"message": "API Key 未配置或为占位符，请在设置页面填入有效的 DeepSeek API Key"})
         return
 
@@ -106,8 +99,7 @@ async def run_rag_pipeline(document_id: str, question: str, chat_history: list):
         search_text = search_response.choices[0].message.content
     except Exception as e:
         error_detail = str(e)
-        # Extract HTTP status if available
-        status_code = getattr(e, "status_code", None) or getattr(getattr(e, "response", None), "status_code", None)
+        status_code = extract_http_status(e)
         if status_code:
             error_detail = f"HTTP {status_code}: {error_detail}"
         yield ("error", {"message": f"Tree search failed: {error_detail}"})
@@ -169,7 +161,7 @@ async def run_rag_pipeline(document_id: str, question: str, chat_history: list):
 
     except Exception as e:
         error_detail = str(e)
-        status_code = getattr(e, "status_code", None) or getattr(getattr(e, "response", None), "status_code", None)
+        status_code = extract_http_status(e)
         if status_code:
             error_detail = f"HTTP {status_code}: {error_detail}"
         yield ("error", {"message": f"Answer generation failed: {error_detail}"})
