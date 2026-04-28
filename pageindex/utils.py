@@ -1,7 +1,7 @@
-import tiktoken
-import openai
+import litellm
 import logging
 import os
+import textwrap
 from datetime import datetime
 import time
 import json
@@ -17,99 +17,69 @@ import yaml
 from pathlib import Path
 from types import SimpleNamespace as config
 
-CHATGPT_API_KEY = os.getenv("CHATGPT_API_KEY")
-API_BASE_URL = os.getenv("API_BASE_URL", None)
+# Backward compatibility: support CHATGPT_API_KEY as alias for OPENAI_API_KEY
+if not os.getenv("OPENAI_API_KEY") and os.getenv("CHATGPT_API_KEY"):
+    os.environ["OPENAI_API_KEY"] = os.getenv("CHATGPT_API_KEY")
+
+litellm.drop_params = True
 
 def count_tokens(text, model=None):
     if not text:
         return 0
-    try:
-        enc = tiktoken.encoding_for_model(model)
-    except KeyError:
-        enc = tiktoken.get_encoding("cl100k_base")
-    tokens = enc.encode(text)
-    return len(tokens)
+    return litellm.token_counter(model=model, text=text)
 
-def ChatGPT_API_with_finish_reason(model, prompt, api_key=CHATGPT_API_KEY, chat_history=None):
+
+def llm_completion(model, prompt, chat_history=None, return_finish_reason=False):
+    if model:
+        model = model.removeprefix("litellm/")
     max_retries = 10
-    client = openai.OpenAI(api_key=api_key, base_url=API_BASE_URL)
+    messages = list(chat_history) + [{"role": "user", "content": prompt}] if chat_history else [{"role": "user", "content": prompt}]
     for i in range(max_retries):
         try:
-            if chat_history:
-                messages = chat_history
-                messages.append({"role": "user", "content": prompt})
-            else:
-                messages = [{"role": "user", "content": prompt}]
-            
-            response = client.chat.completions.create(
+            response = litellm.completion(
                 model=model,
                 messages=messages,
                 temperature=0,
             )
-            if response.choices[0].finish_reason == "length":
-                return response.choices[0].message.content, "max_output_reached"
-            else:
-                return response.choices[0].message.content, "finished"
-
+            content = response.choices[0].message.content
+            if return_finish_reason:
+                finish_reason = "max_output_reached" if response.choices[0].finish_reason == "length" else "finished"
+                return content, finish_reason
+            return content
         except Exception as e:
             print('************* Retrying *************')
             logging.error(f"Error: {e}")
             if i < max_retries - 1:
-                time.sleep(1)  # Wait for 1秒 before retrying
+                time.sleep(1)
             else:
                 logging.error('Max retries reached for prompt: ' + prompt)
-                return "Error"
+                if return_finish_reason:
+                    return "", "error"
+                return ""
 
 
 
-def ChatGPT_API(model, prompt, api_key=CHATGPT_API_KEY, chat_history=None):
+async def llm_acompletion(model, prompt):
+    if model:
+        model = model.removeprefix("litellm/")
     max_retries = 10
-    client = openai.OpenAI(api_key=api_key, base_url=API_BASE_URL)
+    messages = [{"role": "user", "content": prompt}]
     for i in range(max_retries):
         try:
-            if chat_history:
-                messages = chat_history
-                messages.append({"role": "user", "content": prompt})
-            else:
-                messages = [{"role": "user", "content": prompt}]
-            
-            response = client.chat.completions.create(
+            response = await litellm.acompletion(
                 model=model,
                 messages=messages,
                 temperature=0,
             )
-   
             return response.choices[0].message.content
         except Exception as e:
             print('************* Retrying *************')
             logging.error(f"Error: {e}")
             if i < max_retries - 1:
-                time.sleep(1)  # Wait for 1秒 before retrying
+                await asyncio.sleep(1)
             else:
                 logging.error('Max retries reached for prompt: ' + prompt)
-                return "Error"
-            
-
-async def ChatGPT_API_async(model, prompt, api_key=CHATGPT_API_KEY):
-    max_retries = 10
-    messages = [{"role": "user", "content": prompt}]
-    for i in range(max_retries):
-        try:
-            async with openai.AsyncOpenAI(api_key=api_key, base_url=API_BASE_URL) as client:
-                response = await client.chat.completions.create(
-                    model=model,
-                    messages=messages,
-                    temperature=0,
-                )
-                return response.choices[0].message.content
-        except Exception as e:
-            print('************* Retrying *************')
-            logging.error(f"Error: {e}")
-            if i < max_retries - 1:
-                await asyncio.sleep(1)  # Wait for 1s before retrying
-            else:
-                logging.error('Max retries reached for prompt: ' + prompt)
-                return "Error"  
+                return ""
             
             
 def get_json_content(response):
@@ -294,11 +264,9 @@ def get_last_start_page_from_text(text):
 
 
 def sanitize_filename(filename, replacement='-'):
-    # Sanitize filename for cross-platform compatibility
-    invalid_chars = '<>:"/\\|?*'
-    for char in invalid_chars:
-        filename = filename.replace(char, replacement)
-    return filename
+    # In Linux, only '/' and '\0' (null) are invalid in filenames.
+    # Null can't be represented in strings, so we only handle '/'.
+    return filename.replace('/', replacement)
 
 def get_pdf_name(pdf_path):
     # Extract PDF name
@@ -314,13 +282,8 @@ def get_pdf_name(pdf_path):
 
 class JsonLogger:
     def __init__(self, file_path):
-        # Extract PDF name for logger name and sanitize it
+        # Extract PDF name for logger name
         pdf_name = get_pdf_name(file_path)
-        # Sanitize the filename to avoid issues with special characters
-        pdf_name = sanitize_filename(pdf_name)
-        # If the name is too long, truncate it
-        if len(pdf_name) > 50:
-            pdf_name = pdf_name[:50]
             
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.filename = f"{pdf_name}_{current_time}.json"
@@ -421,15 +384,14 @@ def add_preface_if_needed(data):
 
 
 
-def get_page_tokens(pdf_path, model="gpt-4o-2024-11-20", pdf_parser="PyPDF2"):
-    enc = tiktoken.encoding_for_model(model)
+def get_page_tokens(pdf_path, model=None, pdf_parser="PyPDF2"):
     if pdf_parser == "PyPDF2":
         pdf_reader = PyPDF2.PdfReader(pdf_path)
         page_list = []
         for page_num in range(len(pdf_reader.pages)):
             page = pdf_reader.pages[page_num]
             page_text = page.extract_text()
-            token_length = len(enc.encode(page_text))
+            token_length = litellm.token_counter(model=model, text=page_text)
             page_list.append((page_text, token_length))
         return page_list
     elif pdf_parser == "PyMuPDF":
@@ -441,7 +403,7 @@ def get_page_tokens(pdf_path, model="gpt-4o-2024-11-20", pdf_parser="PyPDF2"):
         page_list = []
         for page in doc:
             page_text = page.get_text()
-            token_length = len(enc.encode(page_text))
+            token_length = litellm.token_counter(model=model, text=page_text)
             page_list.append((page_text, token_length))
         return page_list
     else:
@@ -544,7 +506,7 @@ def remove_structure_text(data):
 def check_token_limit(structure, limit=110000):
     list = structure_to_list(structure)
     for node in list:
-        num_tokens = count_tokens(node['text'], model='gpt-4o')
+        num_tokens = count_tokens(node['text'], model=None)
         if num_tokens > limit:
             print(f"Node ID: {node['node_id']} has {num_tokens} tokens")
             print("Start Index:", node['start_index'])
@@ -620,7 +582,7 @@ async def generate_node_summary(node, model=None):
     
     Directly return the description, do not include any other text.
     """
-    response = await ChatGPT_API_async(model, prompt)
+    response = await llm_acompletion(model, prompt)
     return response
 
 
@@ -665,7 +627,7 @@ def generate_doc_description(structure, model=None):
     
     Directly return the description, do not include any other text.
     """
-    response = ChatGPT_API(model, prompt)
+    response = llm_completion(model, prompt)
     return response
 
 
@@ -721,3 +683,28 @@ class ConfigLoader:
         self._validate_keys(user_dict)
         merged = {**self._default_dict, **user_dict}
         return config(**merged)
+
+def create_node_mapping(tree):
+    """Create a flat dict mapping node_id to node for quick lookup."""
+    mapping = {}
+    def _traverse(nodes):
+        for node in nodes:
+            if node.get('node_id'):
+                mapping[node['node_id']] = node
+            if node.get('nodes'):
+                _traverse(node['nodes'])
+    _traverse(tree)
+    return mapping
+
+def print_tree(tree, indent=0):
+    for node in tree:
+        summary = node.get('summary') or node.get('prefix_summary', '')
+        summary_str = f"  —  {summary[:60]}..." if summary else ""
+        print('  ' * indent + f"[{node.get('node_id', '?')}] {node.get('title', '')}{summary_str}")
+        if node.get('nodes'):
+            print_tree(node['nodes'], indent + 1)
+
+def print_wrapped(text, width=100):
+    for line in text.splitlines():
+        print(textwrap.fill(line, width=width))
+
