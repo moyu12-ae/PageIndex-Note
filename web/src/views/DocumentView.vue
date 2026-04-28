@@ -2,6 +2,7 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDocumentsStore } from '@/stores/documents'
+import { useResizable } from '@/composables/useResizable'
 import TreeViewer from '@/components/tree/TreeViewer.vue'
 import ChatPanel from '@/components/chat/ChatPanel.vue'
 
@@ -13,6 +14,20 @@ const loading = ref(true)
 const error = ref('')
 const processingStatus = ref('')
 const processingMessage = ref('')
+
+const {
+  size: chatWidth,
+  isDragging: chatDragging,
+  collapsed: chatCollapsed,
+  startResize: startChatResize,
+  toggleCollapse: toggleChat,
+} = useResizable({
+  defaultSize: 420,
+  minSize: 300,
+  maxSize: 900,
+  reverse: true,
+  collapseSize: 0,
+})
 
 async function loadDocument() {
   loading.value = true
@@ -118,7 +133,28 @@ watch(documentId, loadDocument)
       <div class="doc-view__tree">
         <TreeViewer :tree="store.activeTree" :document-id="documentId" />
       </div>
-      <div class="doc-view__chat">
+
+      <div
+        class="doc-view__resize-handle"
+        :class="{ 'resize-handle--active': chatDragging }"
+        @mousedown="startChatResize"
+      >
+        <button
+          class="doc-view__collapse-btn"
+          :title="chatCollapsed ? 'Expand chat' : 'Collapse chat'"
+          @mousedown.stop
+          @click="toggleChat"
+        >
+          {{ chatCollapsed ? '◀' : '▶' }}
+        </button>
+      </div>
+
+      <div
+        v-show="!chatCollapsed"
+        class="doc-view__chat"
+        :class="{ 'doc-view__chat--dragging': chatDragging }"
+        :style="{ width: chatWidth + 'px' }"
+      >
         <ChatPanel :document-id="documentId" />
       </div>
     </div>
@@ -192,11 +228,58 @@ watch(documentId, loadDocument)
 .doc-view__tree {
   flex: 1;
   overflow: hidden;
+  min-width: 300px;
+}
+
+.doc-view__resize-handle {
+  position: relative;
+  width: 6px;
+  flex-shrink: 0;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 0.15s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-view__resize-handle:hover,
+.resize-handle--active {
+  background: var(--color-accent);
+}
+
+.doc-view__collapse-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 36px;
+  border-radius: 4px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.doc-view__resize-handle:hover .doc-view__collapse-btn {
+  opacity: 1;
 }
 
 .doc-view__chat {
-  width: 420px;
   flex-shrink: 0;
+  transition: width 0.15s ease;
+}
+
+.doc-view__chat--dragging {
+  transition: none;
 }
 
 @media (max-width: 1024px) {
