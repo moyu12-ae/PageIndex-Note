@@ -206,7 +206,7 @@ async def process_markdown(file_path: str, params: dict) -> dict:
         min_token_threshold=params.get("min_token_threshold", 5000),
         if_add_node_summary=params.get("if_add_node_summary", "yes"),
         summary_token_threshold=params.get("summary_token_threshold", 200),
-        model=params.get("model", "deepseek-chat"),
+        model=params.get("model", "deepseek-v4-pro"),
         if_add_doc_description=params.get("if_add_doc_description", "no"),
         if_add_node_text=params.get("if_add_node_text", "no"),
         if_add_node_id=params.get("if_add_node_id", "yes"),
@@ -242,7 +242,7 @@ async def orchestrate_processing(document_id: str, file_path: str, file_type: st
             tracker.update(document_id, "analyzing_structure", 30, "Analyzing document structure with LLM...")
 
             opt_dict = {
-                "model": cfg.get("model", "deepseek-chat"),
+                "model": cfg.get("model", "deepseek-v4-pro"),
                 "toc_check_page_num": cfg.get("toc_check_page_num", 20),
                 "max_page_num_each_node": cfg.get("max_page_num_each_node", 10),
                 "max_token_num_each_node": cfg.get("max_token_num_each_node", 20000),
@@ -260,7 +260,7 @@ async def orchestrate_processing(document_id: str, file_path: str, file_type: st
             tracker.update(document_id, "building_tree", 30, "Building tree with LLM analysis...")
 
             params = {
-                "model": cfg.get("model", "deepseek-chat"),
+                "model": cfg.get("model", "deepseek-v4-pro"),
                 "if_thinning": cfg.get("if_thinning", False),
                 "min_token_threshold": cfg.get("min_token_threshold", 5000),
                 "if_add_node_summary": cfg.get("if_add_node_summary", "yes"),
@@ -300,7 +300,7 @@ async def orchestrate_processing(document_id: str, file_path: str, file_type: st
                            "Building tree with LLM analysis...")
 
             params = {
-                "model": cfg.get("model", "deepseek-chat"),
+                "model": cfg.get("model", "deepseek-v4-pro"),
                 "if_thinning": cfg.get("if_thinning", False),
                 "min_token_threshold": cfg.get("min_token_threshold", 5000),
                 "if_add_node_summary": cfg.get("if_add_node_summary", "yes"),

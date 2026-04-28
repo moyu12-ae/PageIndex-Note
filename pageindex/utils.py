@@ -17,13 +17,20 @@ import yaml
 from pathlib import Path
 from types import SimpleNamespace as config
 
-# Backward compatibility: support CHATGPT_API_KEY as alias for OPENAI_API_KEY
-if not os.getenv("OPENAI_API_KEY") and os.getenv("CHATGPT_API_KEY"):
-    os.environ["OPENAI_API_KEY"] = os.getenv("CHATGPT_API_KEY")
+# Backward compatibility: map CHATGPT_API_KEY to various provider key env vars.
+# The pageindex core uses litellm which reads OPENAI_API_KEY / DEEPSEEK_API_KEY;
+# the server/chat_service uses AsyncOpenAI directly which reads CHATGPT_API_KEY.
+_legacy_api_key = os.getenv("CHATGPT_API_KEY")
+if _legacy_api_key:
+    if not os.getenv("OPENAI_API_KEY"):
+        os.environ["OPENAI_API_KEY"] = _legacy_api_key
+    if not os.getenv("DEEPSEEK_API_KEY"):
+        os.environ["DEEPSEEK_API_KEY"] = _legacy_api_key
 
-# Backward compatibility: support CHATGPT_API_KEY as alias for provider-specific keys
-if not os.getenv("DEEPSEEK_API_KEY") and os.getenv("CHATGPT_API_KEY"):
-    os.environ["DEEPSEEK_API_KEY"] = os.getenv("CHATGPT_API_KEY")
+# Map API_BASE_URL (used by server/chat_service) to OPENAI_API_BASE (used by litellm).
+# DeepSeek's OpenAI-compatible endpoint is at https://api.deepseek.com.
+if not os.getenv("OPENAI_API_BASE") and os.getenv("API_BASE_URL"):
+    os.environ["OPENAI_API_BASE"] = os.getenv("API_BASE_URL")
 
 litellm.drop_params = True
 
