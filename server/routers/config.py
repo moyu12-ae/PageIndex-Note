@@ -37,7 +37,7 @@ async def get_config():
 
     return {
         "llm": {
-            "model": cfg.get("model", "deepseek-v4-pro"),
+            "model": cfg.get("model", "deepseek-v4-flash"),
             "api_base_url": os.getenv("API_BASE_URL", "https://api.deepseek.com"),
             "api_key_set": bool(api_key),
             "api_key_preview": api_key_preview,
@@ -92,7 +92,7 @@ async def test_connection(request: Request):
 
     api_key = body.get("api_key", os.getenv("CHATGPT_API_KEY", ""))
     base_url = body.get("api_base_url", os.getenv("API_BASE_URL", "https://api.deepseek.com"))
-    model = body.get("model", "deepseek-v4-pro")
+    model = body.get("model", "deepseek-v4-flash")
 
     if not api_key:
         return {"success": False, "error": "API Key 未设置"}

@@ -50,7 +50,7 @@ def _get_llm_config():
     return {
         "api_key": os.getenv("CHATGPT_API_KEY", ""),
         "base_url": _normalize_base_url(raw_url) if raw_url else None,
-        "model": os.getenv("LLM_MODEL", "deepseek-v4-pro"),
+        "model": os.getenv("LLM_MODEL", "deepseek-v4-flash"),
     }
 
 
