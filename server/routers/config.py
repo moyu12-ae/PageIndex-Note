@@ -95,7 +95,14 @@ async def test_connection(request: Request):
     model = body.get("model", "deepseek-v4-pro")
 
     if not api_key:
-        return {"success": False, "error": "API key is not set"}
+        return {"success": False, "error": "API Key 未设置"}
+    if "XXXX" in api_key or api_key.startswith("sk-XXX"):
+        return {"success": False, "error": "API Key 是占位符，请填入有效的 DeepSeek API Key"}
+
+    # Normalize base URL: DeepSeek API requires /v1 prefix for OpenAI-compatible endpoints
+    base_url = base_url.rstrip("/")
+    if not base_url.endswith("/v1"):
+        base_url = base_url + "/v1"
 
     try:
         from openai import AsyncOpenAI
@@ -107,6 +114,7 @@ async def test_connection(request: Request):
             model=model,
             messages=[{"role": "user", "content": "Hello, respond with just 'OK'."}],
             max_tokens=10,
+            timeout=15,
         )
         latency = int((time.time() - start) * 1000)
 
@@ -117,4 +125,8 @@ async def test_connection(request: Request):
             "response": response.choices[0].message.content,
         }
     except Exception as e:
-        return {"success": False, "error": str(e)}
+        error_detail = str(e)
+        status_code = getattr(e, "status_code", None) or getattr(getattr(e, "response", None), "status_code", None)
+        if status_code:
+            error_detail = f"HTTP {status_code}: {error_detail}"
+        return {"success": False, "error": error_detail}

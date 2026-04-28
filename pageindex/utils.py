@@ -28,9 +28,18 @@ if _legacy_api_key:
         os.environ["DEEPSEEK_API_KEY"] = _legacy_api_key
 
 # Map API_BASE_URL (used by server/chat_service) to OPENAI_API_BASE (used by litellm).
-# DeepSeek's OpenAI-compatible endpoint is at https://api.deepseek.com.
+# DeepSeek's OpenAI-compatible endpoint requires the /v1 path prefix.
+# The OpenAI client and litellm append paths like /chat/completions to base_url,
+# so the base must include /v1: https://api.deepseek.com/v1
+def _normalize_base_url(url: str) -> str:
+    """Ensure base URL ends with /v1 for OpenAI-compatible API."""
+    url = url.rstrip("/")
+    if not url.endswith("/v1"):
+        url = url + "/v1"
+    return url
+
 if not os.getenv("OPENAI_API_BASE") and os.getenv("API_BASE_URL"):
-    os.environ["OPENAI_API_BASE"] = os.getenv("API_BASE_URL")
+    os.environ["OPENAI_API_BASE"] = _normalize_base_url(os.getenv("API_BASE_URL"))
 
 litellm.drop_params = True
 

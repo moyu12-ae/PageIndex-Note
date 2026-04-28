@@ -36,11 +36,20 @@ Document excerpts:
 Provide a comprehensive answer in the same language as the question, based only on the provided excerpts."""
 
 
+def _normalize_base_url(url: str) -> str:
+    """Ensure base URL ends with /v1 for OpenAI-compatible API."""
+    url = url.rstrip("/")
+    if not url.endswith("/v1"):
+        url = url + "/v1"
+    return url
+
+
 def _get_llm_config():
     """Read LLM config from environment."""
+    raw_url = os.getenv("API_BASE_URL", None)
     return {
         "api_key": os.getenv("CHATGPT_API_KEY", ""),
-        "base_url": os.getenv("API_BASE_URL", None),
+        "base_url": _normalize_base_url(raw_url) if raw_url else None,
         "model": os.getenv("LLM_MODEL", "deepseek-v4-pro"),
     }
 
@@ -68,6 +77,12 @@ def _extract_json(text: str) -> dict:
 async def run_rag_pipeline(document_id: str, question: str, chat_history: list):
     """Async generator yielding (event_type, data) tuples for SSE."""
     cfg = _get_llm_config()
+
+    # Check for placeholder API key
+    if not cfg["api_key"] or cfg["api_key"].startswith("sk-XXX") or "XXXX" in cfg["api_key"]:
+        yield ("error", {"message": "API Key 未配置或为占位符，请在设置页面填入有效的 DeepSeek API Key"})
+        return
+
     client = AsyncOpenAI(api_key=cfg["api_key"], base_url=cfg["base_url"])
 
     # Load tree
@@ -90,7 +105,12 @@ async def run_rag_pipeline(document_id: str, question: str, chat_history: list):
         )
         search_text = search_response.choices[0].message.content
     except Exception as e:
-        yield ("error", {"message": f"Tree search failed: {str(e)}"})
+        error_detail = str(e)
+        # Extract HTTP status if available
+        status_code = getattr(e, "status_code", None) or getattr(getattr(e, "response", None), "status_code", None)
+        if status_code:
+            error_detail = f"HTTP {status_code}: {error_detail}"
+        yield ("error", {"message": f"Tree search failed: {error_detail}"})
         return
 
     # Parse response
@@ -148,7 +168,11 @@ async def run_rag_pipeline(document_id: str, question: str, chat_history: list):
                 yield ("answer_chunk", {"content": delta.content})
 
     except Exception as e:
-        yield ("error", {"message": f"Answer generation failed: {str(e)}"})
+        error_detail = str(e)
+        status_code = getattr(e, "status_code", None) or getattr(getattr(e, "response", None), "status_code", None)
+        if status_code:
+            error_detail = f"HTTP {status_code}: {error_detail}"
+        yield ("error", {"message": f"Answer generation failed: {error_detail}"})
         return
 
     yield ("done", {
