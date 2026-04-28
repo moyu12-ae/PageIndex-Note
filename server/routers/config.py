@@ -26,6 +26,25 @@ def _write_config_yaml(data: dict):
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True)
 
 
+# Model name handling:
+# - config.yaml stores model with litellm prefix: "openai/deepseek-v4-flash"
+# - AsyncOpenAI (chat_service, test-connection) needs plain name: "deepseek-v4-flash"
+# - Frontend should see/use the plain name
+LITELLM_PROVIDER_PREFIX = "openai/"
+
+def _strip_provider_prefix(model: str) -> str:
+    """Remove litellm provider prefix for direct API calls."""
+    for prefix in ("openai/", "litellm/"):
+        if model.startswith(prefix):
+            return model[len(prefix):]
+    return model
+
+def _ensure_provider_prefix(model: str) -> str:
+    """Add litellm provider prefix for config.yaml storage."""
+    model = _strip_provider_prefix(model)  # strip any existing prefix first
+    return f"{LITELLM_PROVIDER_PREFIX}{model}"
+
+
 @router.get("")
 async def get_config():
     """Get current LLM and processing configuration."""
@@ -35,9 +54,13 @@ async def get_config():
     api_key = os.getenv("CHATGPT_API_KEY", "")
     api_key_preview = f"...{api_key[-4:]}" if len(api_key) > 4 else ""
 
+    # Strip litellm provider prefix for frontend display / test-connection
+    raw_model = cfg.get("model", "deepseek-v4-flash")
+    display_model = _strip_provider_prefix(raw_model)
+
     return {
         "llm": {
-            "model": cfg.get("model", "deepseek-v4-flash"),
+            "model": display_model,
             "api_base_url": os.getenv("API_BASE_URL", "https://api.deepseek.com"),
             "api_key_set": bool(api_key),
             "api_key_preview": api_key_preview,
@@ -66,10 +89,10 @@ async def update_config(request: Request):
     if "api_base_url" in llm:
         set_key(str(ENV_PATH), "API_BASE_URL", llm["api_base_url"])
 
-    # Update config.yaml
+    # Update config.yaml (store with litellm provider prefix)
     cfg = _read_config_yaml()
     if "model" in llm:
-        cfg["model"] = llm["model"]
+        cfg["model"] = _ensure_provider_prefix(llm["model"])
 
     processing = body.get("processing", {})
     for key in ["toc_check_page_num", "max_page_num_each_node", "max_token_num_each_node",
@@ -92,7 +115,8 @@ async def test_connection(request: Request):
 
     api_key = body.get("api_key", os.getenv("CHATGPT_API_KEY", ""))
     base_url = body.get("api_base_url", os.getenv("API_BASE_URL", "https://api.deepseek.com"))
-    model = body.get("model", "deepseek-v4-flash")
+    # Strip litellm provider prefix for direct AsyncOpenAI call
+    model = _strip_provider_prefix(body.get("model", "deepseek-v4-flash"))
 
     if not api_key:
         return {"success": False, "error": "API Key 未设置"}
