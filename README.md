@@ -1,4 +1,10 @@
-# PageIndex Web 可视化RAG系统使用说明
+# PageIndex Note — Web 可视化 RAG 系统
+
+> **Based on** [YiTangMJ/PageIndexRag-Web](https://github.com/YiTangMJ/PageIndexRag-Web)  
+> **Upstream** [VectifyAI/PageIndex](https://github.com/VectifyAI/PageIndex)  
+> Originally forked from the PageIndex ecosystem. This independent fork continues development with enhanced features, improved UI, and multi-format document support.
+
+---
 
 ## 📖 目录
 
@@ -15,7 +21,7 @@
 
 ## 系统概述
 
-**PageIndex Web** 是基于 PageIndex 开源项目构建的 **Web 可视化RAG系统**，提供了完整的文档处理、树结构可视化和智能问答功能。
+**PageIndex Note** 是基于 PageIndex 开源项目构建的 **Web 可视化RAG系统**，提供了完整的文档处理、树结构可视化和智能问答功能。
 
 ### 什么是 PageIndex？
 
